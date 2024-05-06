@@ -27,6 +27,10 @@ public class CustomerResponse {
         this.affiliation = affiliation;
     }
 
+    public CustomerResponse() {
+
+    }
+
     public Long getId() {
         return id;
     }

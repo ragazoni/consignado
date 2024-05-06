@@ -2,14 +2,13 @@ package br.com.consignado.domain.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
-
 public class SimulateRequest {
     @JsonProperty(value = "referrslId")
     private String referralId;
 
     private CustomerResponse customer;
-    private Date simulateDate;
+    private ContractResponse contractResponse;
+    private LoanResponse loanResponse;
 
     public CustomerResponse getCustomer() {
         return customer;
@@ -19,19 +18,37 @@ public class SimulateRequest {
         this.customer = customer;
     }
 
-    public Date getSimulateDate() {
-        return simulateDate;
+    public String getReferralId() {
+        return referralId;
     }
 
-    public void setSimulateDate(Date simulateDate) {
-        this.simulateDate = simulateDate;
+    public void setReferralId(String referralId) {
+        this.referralId = referralId;
+    }
+
+    public ContractResponse getContractResponse() {
+        return contractResponse;
+    }
+
+    public void setContractResponse(ContractResponse contractResponse) {
+        this.contractResponse = contractResponse;
+    }
+
+    public LoanResponse getLoanResponse() {
+        return loanResponse;
+    }
+
+    public void setLoanResponse(LoanResponse loanResponse) {
+        this.loanResponse = loanResponse;
     }
 
     @Override
     public String toString() {
         return "SimulateRequest{" +
-                "customer=" + customer +
-                ", simulateDate=" + simulateDate +
+                "referralId='" + referralId + '\'' +
+                ", customer=" + customer +
+                ", contractResponse=" + contractResponse +
+                ", loanResponse=" + loanResponse +
                 '}';
     }
 }

@@ -19,7 +19,6 @@ public class ContractConverter implements Converter<ContractResponse, SuspdContr
         if (Objects.nonNull(contractResponse.getDateContract())) {
             suspdContract.setDateCreatedContract(contractResponse.getDateContract());
         }
-        suspdContract.setLoan(contractResponse.getLoan());
 
         return suspdContract;
     }

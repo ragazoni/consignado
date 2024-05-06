@@ -24,24 +24,27 @@ public class SuspdLoan {
     @Column(name = "convenio", length = 255, nullable = false)
     private String affiliation;
 
-    @Column(name = "valor-solicitado", length = 255, nullable = false)
+    @Column(name = "valor_solicitado", length = 255, nullable = false)
     private double currentLoanValue;
 
-    @Column(name = "taxa-aplicada", length = 255, nullable = false)
+    @Column(name = "taxa_aplicada", length = 255, nullable = false)
     private double feeValue;
 
-    @Column(name = "quantidade-parcelas", length = 255, nullable = false)
+    @Column(name = "quantidade_parcelas", length = 255, nullable = false)
     private int totalInstallments;
 
-    @Column(name = "valor-total", length = 255, nullable = false)
+    @Column(name = "valor_total", length = 255, nullable = false)
     private double amount;
 
-    @Column(name = "valor-parcela", length = 255, nullable = false)
+    @Column(name = "valor_parcela", length = 255, nullable = false)
     private double installmentValue;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "suspdLoan", cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     private SuspdContract suspdContracts;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Customer customer;
 
     public Long getId() {
         return id;
@@ -121,6 +124,14 @@ public class SuspdLoan {
 
     public void setInstallmentValue(double installmentValue) {
         this.installmentValue = installmentValue;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

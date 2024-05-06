@@ -3,7 +3,6 @@ package br.com.consignado.domain.service.impl;
 import br.com.consignado.data.entity.Customer;
 import br.com.consignado.data.repository.CustomerRepository;
 import br.com.consignado.domain.service.CustomerService;
-import br.com.consignado.domain.utils.CpfUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

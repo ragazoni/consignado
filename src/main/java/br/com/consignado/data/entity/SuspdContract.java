@@ -1,6 +1,5 @@
 package br.com.consignado.data.entity;
 
-import br.com.consignado.domain.customer.LoanResponse;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ public class SuspdContract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "data-contrato", nullable = false)
+    @Column(name = "data_contrato", nullable = false)
     private LocalDateTime dateCreatedContract;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_id", nullable = false)
@@ -36,11 +35,11 @@ public class SuspdContract {
         this.dateCreatedContract = dateCreatedContract;
     }
 
-    public SuspdLoan getLoan() {
+    public SuspdLoan getSuspdLoan() {
         return suspdLoan;
     }
 
-    public void setLoan(LoanResponse suspdLoan) {
+    public void setSuspdLoan(SuspdLoan suspdLoan) {
         this.suspdLoan = suspdLoan;
     }
 

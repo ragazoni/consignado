@@ -2,10 +2,11 @@ package br.com.consignado.domain.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class LoanResponse {
+public class LoanResponse extends CustomerResponse {
 
     @JsonProperty("id")
     private Long id;
@@ -13,13 +14,7 @@ public class LoanResponse {
     @JsonProperty("dataSimulacao")
     private LocalDateTime simulationDate;
 
-    @JsonProperty("cpfCliente")
-    private String userDocument;
-
-    @JsonProperty("convenio")
-    private String affiliation;
-
-    @JsonProperty("valorSolicitado")
+     @JsonProperty("valorSolicitado")
     private double currentLoanValue;
 
     @JsonProperty("taxaAplicada")
@@ -34,10 +29,20 @@ public class LoanResponse {
     @JsonProperty("valorParcela")
     private double installmentValue;
 
+    public LoanResponse(Long id, String name, String cpf, String accountType, String segment, String affiliation) {
+        super(id, name, cpf, accountType, segment, affiliation);
+    }
+
+    public LoanResponse() {
+        super();
+    }
+
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -48,22 +53,6 @@ public class LoanResponse {
 
     public void setSimulationDate(LocalDateTime simulationDate) {
         this.simulationDate = simulationDate;
-    }
-
-    public String getUserDocument() {
-        return userDocument;
-    }
-
-    public void setUserDocument(String userDocument) {
-        this.userDocument = userDocument;
-    }
-
-    public String getAffiliation() {
-        return affiliation;
-    }
-
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
     }
 
     public double getCurrentLoanValue() {
@@ -124,8 +113,6 @@ public class LoanResponse {
         return "LoanResponse{" +
                 "id=" + id +
                 ", simulationDate=" + simulationDate +
-                ", userDocument='" + userDocument + '\'' +
-                ", affiliation='" + affiliation + '\'' +
                 ", currentLoanValue=" + currentLoanValue +
                 ", feeValue=" + feeValue +
                 ", totalInstallments=" + totalInstallments +

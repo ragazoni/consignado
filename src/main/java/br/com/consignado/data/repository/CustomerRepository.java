@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Customer findByCpf(String document);
+
+    Customer findByAffiliation(String affiliation);
+
 }

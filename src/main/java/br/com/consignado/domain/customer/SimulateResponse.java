@@ -2,6 +2,7 @@ package br.com.consignado.domain.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Collection;
 import java.util.List;
 
 public class SimulateResponse {
@@ -9,6 +10,11 @@ public class SimulateResponse {
     List<LoanResponse> loans;
     @JsonProperty(value = "contratos")
     List<ContractResponse> contractResponses;
+
+    public SimulateResponse(List<LoanResponse> loans, List<ContractResponse> contractResponses) {
+        this.loans = loans;
+        this.contractResponses = contractResponses;
+    }
 
     public List<LoanResponse> getLoans() {
         return loans;
@@ -18,7 +24,7 @@ public class SimulateResponse {
         this.loans = loans;
     }
 
-    public List<ContractResponse> getContracts() {
+    public Collection<?> getContracts() {
         return contractResponses;
     }
 

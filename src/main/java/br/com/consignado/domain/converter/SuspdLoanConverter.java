@@ -5,7 +5,6 @@ import br.com.consignado.domain.customer.LoanResponse;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class SuspdLoanConverter implements Converter<LoanResponse, SuspdLoan> {
@@ -16,8 +15,8 @@ public class SuspdLoanConverter implements Converter<LoanResponse, SuspdLoan> {
         if (Objects.nonNull(loanResponse.getId())) {
             suspdLoan.setId(loanResponse.getId());
         }
-        if (StringUtils.isNotBlank(loanResponse.getUserDocument())) {
-            suspdLoan.setUserDocument(loanResponse.getUserDocument());
+        if (StringUtils.isNotBlank(loanResponse.getCpf())) {
+            suspdLoan.setUserDocument(loanResponse.getCpf());
         }
         if (Objects.nonNull(loanResponse.getAffiliation())) {
             suspdLoan.setAffiliation(loanResponse.getAffiliation());
@@ -30,8 +29,7 @@ public class SuspdLoanConverter implements Converter<LoanResponse, SuspdLoan> {
             suspdLoan.setSimulationDate(loanResponse.getSimulationDate());
         }
         suspdLoan.setTotalInstallments(loanResponse.getTotalInstallments());
-        suspdLoan.setContracts(new ArrayList<>());
 
-        return null;
+        return suspdLoan;
     }
 }
