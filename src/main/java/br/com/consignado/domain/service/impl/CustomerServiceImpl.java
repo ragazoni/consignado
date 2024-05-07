@@ -3,7 +3,10 @@ package br.com.consignado.domain.service.impl;
 import br.com.consignado.api.exception.CustomerNotFoundException;
 import br.com.consignado.data.entity.Customer;
 import br.com.consignado.data.repository.CustomerRepository;
+import br.com.consignado.domain.constants.ConsignadoConstants;
 import br.com.consignado.domain.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 
     @Autowired
@@ -33,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer saveOrUpdateCustomer(Customer customer) {
         Customer existingCustomer = customerRepository.findByCpf(customer.getCpf());
-        if(existingCustomer != null){
+        if (existingCustomer != null) {
             existingCustomer.setName(customer.getName());
             existingCustomer.setCpf(customer.getCpf());
             existingCustomer.setAffiliation(customer.getAffiliation());
@@ -51,19 +55,19 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer validCustomer(String document) {
         Customer customer = customerRepository.findByCpf(document);
         if (customer == null) {
-            throw new CustomerNotFoundException("cliente não encontrado");
+            throw new CustomerNotFoundException("customer not found");
         }
-        boolean isCorrentista = customer.getAccountType().equals("S");
-        if (isCorrentista) {
-            customer.getSegment();
-            customer.getAffiliation();
+        String accountType = customer.getAccountType();
+        String segment = customer.getSegment();
+        String affiliation = customer.getAffiliation();
+        if (accountType.equals(ConsignadoConstants.CORRENTISTA)) {
+            logger.info(String.format("Customer is account holder: segment=%s - affiliation=%s", segment, affiliation));
         } else {
-            customer.getSegment();
-            customer.getAffiliation();
+            logger.info("Customer is not account holder");
         }
+        logger.info(String.format("Affiliation customer: %s", affiliation));
         return customer;
     }
-
 
 
 }
