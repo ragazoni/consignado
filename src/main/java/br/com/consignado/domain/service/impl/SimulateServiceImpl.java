@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SimulateServiceImpl implements Simulate {
@@ -32,6 +33,11 @@ public class SimulateServiceImpl implements Simulate {
         this.loanRepository = loanRepository;
         this.customerRepository = customerRepository;
         this.contractRepository = contractRepository;
+    }
+
+    @Override
+    public List<Contract> listContract() {
+        return contractRepository.findAll();
     }
 
     @Override
