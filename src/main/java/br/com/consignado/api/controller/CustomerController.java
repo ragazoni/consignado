@@ -4,7 +4,7 @@ import br.com.consignado.api.dto.LoanDTO;
 import br.com.consignado.api.exception.CustomerNotFoundException;
 import br.com.consignado.api.exception.SimulateExceptionNotFound;
 import br.com.consignado.data.entity.Customer;
-import br.com.consignado.data.entity.SuspdLoan;
+import br.com.consignado.data.entity.Loan;
 import br.com.consignado.domain.service.CustomerService;
 import br.com.consignado.domain.service.Simulate;
 import br.com.consignado.domain.utils.CpfUtils;
@@ -50,16 +50,16 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/simulate")
-    public ResponseEntity<SuspdLoan> createSimulation(@RequestBody LoanDTO dto)
+    public ResponseEntity<Loan> createSimulation(@RequestBody LoanDTO dto)
             throws SimulateExceptionNotFound {
         try {
-            SuspdLoan loan = new SuspdLoan();
+            Loan loan = new Loan();
             loan.setUserDocument(dto.getUserDocument());
             loan.setCurrentLoanValue(dto.getCurrentLoanValue());
             loan.setAffiliation(dto.getAffiliation());
             loan.setTotalInstallments(dto.getTotalInstallments());
-            SuspdLoan saveSuspdLoan = simulateService.saveSimulate(loan);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saveSuspdLoan);
+            Loan saveLoan = simulateService.saveSimulate(loan);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saveLoan);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SimulateExceptionNotFound("error simulate loan");

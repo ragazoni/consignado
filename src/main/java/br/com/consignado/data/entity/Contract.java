@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "contract")
-public class SuspdContract {
+public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +46,8 @@ public class SuspdContract {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SuspdContract suspdContract = (SuspdContract) o;
-        return Objects.equals(id, suspdContract.id);
+        Contract contract = (Contract) o;
+        return Objects.equals(id, contract.id);
     }
 
     @Override

@@ -4,8 +4,8 @@ import br.com.consignado.api.exception.AffiliationInvalidException;
 import br.com.consignado.api.exception.InstallmenstNotFoundException;
 import br.com.consignado.api.exception.LoanAmountIsZeroException;
 import br.com.consignado.data.entity.Customer;
-import br.com.consignado.data.entity.SuspdContract;
-import br.com.consignado.data.entity.SuspdLoan;
+import br.com.consignado.data.entity.Contract;
+import br.com.consignado.data.entity.Loan;
 import br.com.consignado.data.repository.ContractRepository;
 import br.com.consignado.data.repository.CustomerRepository;
 import br.com.consignado.data.repository.LoanRepository;
@@ -35,24 +35,24 @@ public class SimulateServiceImpl implements Simulate {
     }
 
     @Override
-    public SuspdLoan saveSimulate(SuspdLoan suspdLoan) throws InstallmenstNotFoundException,
+    public Loan saveSimulate(Loan loan) throws InstallmenstNotFoundException,
             AffiliationInvalidException, LoanAmountIsZeroException {
-        Customer customer = customerRepository.findByCpf(suspdLoan.getUserDocument());
+        Customer customer = customerRepository.findByCpf(loan.getUserDocument());
         double taxaMensal = getTaxaMensal(customer);
         taxaMensal = getTaxaMensalIdCorrentista(customer, taxaMensal);
         double feeValue = getFeeValue(taxaMensal);
         int maxParcelas = getMaxParcelas(customer);
-        int numParcelas = getNumParcelasIsValido(suspdLoan, maxParcelas);
-        double valorTotal = getValorTotal(suspdLoan, taxaMensal, numParcelas);
+        int numParcelas = getNumParcelasIsValido(loan, maxParcelas);
+        double valorTotal = getValorTotal(loan, taxaMensal, numParcelas);
         double valorParcela = getValorParcela(valorTotal, numParcelas);
-        suspdLoan.setSimulationDate(LocalDateTime.now());
-        suspdLoan.setFeeValue(feeValue);
-        suspdLoan.setAmount(valorTotal);
-        suspdLoan.setInstallmentValue(valorParcela);
-        loanRepository.save(suspdLoan);
-        SuspdContract contract = saveContract(suspdLoan);
-        logger.info(String.format("simulacao e contrato salvo com sucesso. loan=%s - contract=%s", suspdLoan, contract));
-        return suspdLoan;
+        loan.setSimulationDate(LocalDateTime.now());
+        loan.setFeeValue(feeValue);
+        loan.setAmount(valorTotal);
+        loan.setInstallmentValue(valorParcela);
+        loanRepository.save(loan);
+        Contract contract = saveContract(loan);
+        logger.info(String.format("simulacao e contrato salvo com sucesso. loan=%s - contract=%s", loan, contract));
+        return loan;
     }
 
     private static double getFeeValue(double taxaMensal) {
@@ -65,8 +65,8 @@ public class SimulateServiceImpl implements Simulate {
     /**
      * Verifica se o número de parcelas solicitado é válido
      */
-    private static int getNumParcelasIsValido(SuspdLoan suspdLoan, int maxParcelas) throws InstallmenstNotFoundException {
-        int numParcelas = suspdLoan.getTotalInstallments();
+    private static int getNumParcelasIsValido(Loan loan, int maxParcelas) throws InstallmenstNotFoundException {
+        int numParcelas = loan.getTotalInstallments();
         if (numParcelas <= 0) {
             throw new InstallmenstNotFoundException("Number of installments must be greater than zero");
         }
@@ -92,9 +92,9 @@ public class SimulateServiceImpl implements Simulate {
     /**
      * Calcula o valor total a ser pago com juros simples
      */
-    private static double getValorTotal(SuspdLoan suspdLoan, double taxaMensal, int numParcelas)
+    private static double getValorTotal(Loan loan, double taxaMensal, int numParcelas)
             throws LoanAmountIsZeroException {
-        double valorSolicitado = suspdLoan.getCurrentLoanValue();
+        double valorSolicitado = loan.getCurrentLoanValue();
         if (valorSolicitado <= 0) {
             throw new LoanAmountIsZeroException(" Loan value must be greater than zero");
         }
@@ -133,8 +133,8 @@ public class SimulateServiceImpl implements Simulate {
         };
     }
 
-    private SuspdContract saveContract(SuspdLoan loan) {
-        SuspdContract contract = new SuspdContract();
+    private Contract saveContract(Loan loan) {
+        Contract contract = new Contract();
         contract.setDateCreatedContract(LocalDateTime.now());
         contract.setSimulateLoanId(loan.getId());
         contractRepository.save(contract);

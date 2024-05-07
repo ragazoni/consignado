@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "loan")
-public class SuspdLoan {
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -129,7 +129,7 @@ public class SuspdLoan {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SuspdLoan that = (SuspdLoan) o;
+        Loan that = (Loan) o;
         return Objects.equals(id, that.id);
     }
 
