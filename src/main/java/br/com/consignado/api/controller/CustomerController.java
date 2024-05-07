@@ -3,6 +3,7 @@ package br.com.consignado.api.controller;
 import br.com.consignado.api.dto.LoanDTO;
 import br.com.consignado.api.exception.CustomerNotFoundException;
 import br.com.consignado.api.exception.SimulateExceptionNotFound;
+import br.com.consignado.data.entity.Contract;
 import br.com.consignado.data.entity.Customer;
 import br.com.consignado.data.entity.Loan;
 import br.com.consignado.domain.service.CustomerService;
@@ -70,6 +71,11 @@ public class CustomerController {
     @GetMapping(value = "/list-customer")
     public List<Customer> listCustomer() {
         return customerService.listCustomer();
+    }
+
+    @GetMapping(value = "/list-contract")
+    public List<Contract> listContract() {
+        return simulateService.listContract();
     }
 
 }
