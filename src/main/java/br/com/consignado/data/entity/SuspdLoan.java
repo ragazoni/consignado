@@ -1,8 +1,6 @@
 package br.com.consignado.data.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -39,13 +37,6 @@ public class SuspdLoan {
     @Column(name = "valor_parcela", length = 255, nullable = false)
     private double installmentValue;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "suspdLoan", cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SELECT)
-    private SuspdContract suspdContracts;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Customer customer;
-
     public Long getId() {
         return id;
     }
@@ -60,14 +51,6 @@ public class SuspdLoan {
 
     public void setSimulationDate(LocalDateTime simulationDate) {
         this.simulationDate = simulationDate;
-    }
-
-    public SuspdContract getSuspdContracts() {
-        return suspdContracts;
-    }
-
-    public void setSuspdContracts(SuspdContract suspdContracts) {
-        this.suspdContracts = suspdContracts;
     }
 
     public String getUserDocument() {
@@ -91,7 +74,12 @@ public class SuspdLoan {
     }
 
     public void setCurrentLoanValue(double currentLoanValue) {
-        this.currentLoanValue = currentLoanValue;
+        if (Double.isInfinite(currentLoanValue) || Double.isNaN(currentLoanValue)) {
+            this.currentLoanValue = 0.0;
+            throw new IllegalArgumentException("Invalid value for currentLoanValue: " + currentLoanValue);
+        } else {
+            this.currentLoanValue = currentLoanValue;
+        }
     }
 
     public double getFeeValue() {
@@ -99,7 +87,13 @@ public class SuspdLoan {
     }
 
     public void setFeeValue(double feeValue) {
-        this.feeValue = feeValue;
+        if (Double.isInfinite(feeValue) || Double.isNaN(feeValue)) {
+            this.feeValue = 0.0;
+            throw new IllegalArgumentException("Invalid value for feeValue: " + feeValue);
+        } else {
+            this.feeValue = feeValue;
+        }
+
     }
 
     public int getTotalInstallments() {
@@ -115,7 +109,12 @@ public class SuspdLoan {
     }
 
     public void setAmount(double amount) {
-        this.amount = amount;
+        if (Double.isInfinite(amount) || Double.isNaN(amount)) {
+            this.amount = 0.0;
+            throw new IllegalArgumentException("Invalid value for amount: " + amount);
+        } else {
+            this.amount = amount;
+        }
     }
 
     public double getInstallmentValue() {
@@ -124,14 +123,6 @@ public class SuspdLoan {
 
     public void setInstallmentValue(double installmentValue) {
         this.installmentValue = installmentValue;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     @Override
@@ -147,4 +138,18 @@ public class SuspdLoan {
         return Objects.hashCode(id);
     }
 
+    @Override
+    public String toString() {
+        return "SuspdLoan{" +
+                "id=" + id +
+                ", simulationDate=" + simulationDate +
+                ", userDocument='" + userDocument + '\'' +
+                ", affiliation='" + affiliation + '\'' +
+                ", currentLoanValue=" + currentLoanValue +
+                ", feeValue=" + feeValue +
+                ", totalInstallments=" + totalInstallments +
+                ", amount=" + amount +
+                ", installmentValue=" + installmentValue +
+                '}';
+    }
 }

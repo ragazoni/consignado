@@ -15,9 +15,8 @@ public class SuspdContract {
     private Long id;
     @Column(name = "data_contrato", nullable = false)
     private LocalDateTime dateCreatedContract;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loan_id", nullable = false)
-    private SuspdLoan suspdLoan;
+    @Column(name = "loan_id", nullable = false)
+    private Long simulateLoanId;
 
     public Long getId() {
         return id;
@@ -35,12 +34,12 @@ public class SuspdContract {
         this.dateCreatedContract = dateCreatedContract;
     }
 
-    public SuspdLoan getSuspdLoan() {
-        return suspdLoan;
+    public Long getSimulateLoanId() {
+        return simulateLoanId;
     }
 
-    public void setSuspdLoan(SuspdLoan suspdLoan) {
-        this.suspdLoan = suspdLoan;
+    public void setSimulateLoanId(Long simulateLoanId) {
+        this.simulateLoanId = simulateLoanId;
     }
 
     @Override
@@ -54,5 +53,14 @@ public class SuspdContract {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "SuspdContract{" +
+                "id=" + id +
+                ", dateCreatedContract=" + dateCreatedContract +
+                ", simulateLoanId=" + simulateLoanId +
+                '}';
     }
 }

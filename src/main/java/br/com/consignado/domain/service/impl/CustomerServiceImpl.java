@@ -1,5 +1,6 @@
 package br.com.consignado.domain.service.impl;
 
+import br.com.consignado.api.exception.CustomerNotFoundException;
 import br.com.consignado.data.entity.Customer;
 import br.com.consignado.data.repository.CustomerRepository;
 import br.com.consignado.domain.service.CustomerService;
@@ -50,9 +51,10 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer validCustomer(String document) {
         Customer customer = customerRepository.findByCpf(document);
         if (customer == null) {
-            throw new IllegalArgumentException("cliente não encontrado");
+            throw new CustomerNotFoundException("cliente não encontrado");
         }
-        if (customer.getAccountType().equals("S")) {
+        boolean isCorrentista = customer.getAccountType().equals("S");
+        if (isCorrentista) {
             customer.getSegment();
             customer.getAffiliation();
         } else {
